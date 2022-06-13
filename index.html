@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>D&D.Sci June 2022 Evaluator</title>
+</head>
+<body>
+  <div id="choiceline"> You ask the goddess for <span id="cheat1"><button onclick="set_cheat1('AA')">Anomalous Agility</button>/<button onclick="set_cheat1('BC')">Barrier Conjuration</button>/<button onclick="set_cheat1('E')">Enlightenment</button>/<button onclick="set_cheat1('HDS')">Hypercompetent Dark Side</button>/<button onclick="set_cheat1('MP')">Mind Palace</button>/<button onclick="set_cheat1('MR')">Monstrous Regeneration</button>/<button onclick="set_cheat1('RS')">Radiant Splendor</button>/<button onclick="set_cheat1('RXG')">Rapid XP Gain</button>/<button onclick="set_cheat1('S')">Shapeshifting</button>/<button onclick="set_cheat1('TD')">Temporal Distortion</button>/<button onclick="set_cheat1('UL')">Uncanny Luck</button></span> and <span id="cheat2"><button onclick="set_cheat2('AA')">Anomalous Agility</button>/<button onclick="set_cheat2('BC')">Barrier Conjuration</button>/<button onclick="set_cheat2('E')">Enlightenment</button>/<button onclick="set_cheat2('HDS')">Hypercompetent Dark Side</button>/<button onclick="set_cheat2('MP')">Mind Palace</button>/<button onclick="set_cheat2('MR')">Monstrous Regeneration</button>/<button onclick="set_cheat2('RS')">Radiant Splendor</button>/<button onclick="set_cheat2('RXG')">Rapid XP Gain</button>/<button onclick="set_cheat2('S')">Shapeshifting</button>/<button onclick="set_cheat2('TD')">Temporal Distortion</button>/<button onclick="set_cheat2('UL')">Uncanny Luck</button></span>.</div>
+  <br>
+  <br>
+  <div id="buttonLine"><button onclick="confirm()">Confirm</button></div>
+  <br>
+  <div id="resultLine"></div>
+  <br>
+  <div id="probLine"></div>
+  <br>
+<b style="font-size:28px">
+</div>
+  
+</b>
+<script id="jsbin-javascript">
+
+
+lookup = {"AA":"Anomalous Agility","BC":"Barrier Conjuration","E":"Enlightenment","HDS":"Hypercompetent Dark Side","MP":"Mind Palace","MR":"Monstrous Regeneration","RS":"Radiant Splendor","RXG":"Rapid XP Gain","S":"Shapeshifting","TD":"Temporal Distortion","UL":"Uncanny Luck"}
+
+cheat1=""
+cheat2=""
+
+function set_cheat1(c){
+ if (c!=cheat2){
+  cheat1=c
+  document.getElementById("cheat1").innerHTML = lookup[c]
+ }
+}
+
+function set_cheat2(c){
+ if (c!=cheat1){
+  cheat2=c
+  document.getElementById("cheat2").innerHTML = lookup[c]
+ }
+}
+
+
+function roll_dX(X){
+ return Math.ceil(Math.random()*X)
+}
+
+function new_world(go){
+ if (go==0){
+  document.getElementById("chooseHome").innerHTML = "discover a way to return home, where you spend the rest of your days <span id='life'><button onclick='lifestyle(1)'>plagiarising the other world's mythology to become a globally renowned author</button>/<button onclick='lifestyle(2)'>using the magic trinkets you took with you to precipitate a scientific revolution</button>/<button onclick='lifestyle(3)'>campaigning for improved road safety</button></span>"
+ }else{
+  document.getElementById("chooseHome").innerHTML = "live a new life in a new world, where you spend the rest of your days <span id='life'><button onclick='lifestyle(4)'>kickstarting a long-overdue industrial revolution</button>/<button onclick='lifestyle(5)'>ruling as the next Demon King</button>/<button onclick='lifestyle(6)'>using your fame to accumulate a harem</button>"
+ }
+}
+
+function lifestyle(l){
+ if(l==1){
+  document.getElementById("life").innerHTML = "plagiarising the other world's mythology to become a world-renowned author."
+ }
+ if(l==2){
+  document.getElementById("life").innerHTML = "using the magic trinkets you took with you to precipitate a scientific revolution."
+ }
+ if(l==3){
+  document.getElementById("life").innerHTML = "campaigning for improved road safety."
+ }
+ if(l==4){
+  document.getElementById("life").innerHTML = "kickstarting a long-overdue industrial revolution."
+ }
+ if(l==5){
+  document.getElementById("life").innerHTML = "ruling as the next Demon King."
+ }
+ if(l==6){
+  document.getElementById("life").innerHTML = "using your fame to accumulate a harem of <span id='harem'><button onclick='harem(1)'>catboys</button>/<button onclick='harem(2)'>lizardgirls</button>/<button onclick='harem(3)'>catboys AND lizardgirls</button>"
+ }
+}
+
+function harem(h){
+ if (h==1){
+  document.getElementById("harem").innerHTML = "catboys."
+ }
+ if (h==2){
+  document.getElementById("harem").innerHTML = "lizardgirls."
+ }
+ if (h==3){
+  document.getElementById("harem").innerHTML = "catboys and lizardgirls."
+ }
+}
+
+probDict = {1:"19.2%",2:"19.9%",3:"22.0%",4:"26.8%",5:"35.1%",6:"46.6%",7:"59.7%",8:"72.4%",9:"83.0%",10:"90.5%",11:"95.2%",12:"97.8%"} // from analysis.py
+probDictHDS = {1:"21.8%",2:"27.6",3:"38.3%",4:"52.6%",5:"67.6%",6:"80.2%", 7:"89.3%",8:"94.8%"} // from analysis.py
+
+adds = {"AA":5,"BC":5,"E":2,"HDS":1,"MP":4,"MR":5,"RS":2,"RXG":5,"S":2,"TD":6,"UL":2}
+
+function confirm(){
+ 
+ if (cheat1!="" && cheat2!=""){
+  
+  apt=6+roll_dX(4)
+  
+  
+  
+  addl=0
+  
+  if ((cheat1=="HDS") || (cheat2=="HDS")){
+   addl=11-apt
+  }
+  
+  addl=addl+adds[cheat1]+adds[cheat2]
+  
+  if (((cheat1=="E")&&(cheat2=="RB"))||((cheat1=="RB")&&(cheat2=="E"))){
+   addl+=4
+  }
+  
+  if ((["MR","BC","AA"].includes(cheat1))&&(["MR","BC","AA"].includes(cheat2))){
+   addl-=4
+  }
+  
+  if ((cheat1=="HDS") || (cheat2=="HDS")){
+   prob=probDictHDS[addl]
+  }
+  else{
+   prob=probDict[addl]
+  }
+  
+  
+  pow = apt + addl
+  
+  score=0
+  
+  for (let i = 0; i < pow; i++) {
+   score+=roll_dX(10)
+  }
+  
+  document.getElementById("buttonLine").innerHTML = ""
+  
+  document.getElementById("probLine").innerHTML = "(You had a "+prob+" chance to win.)"
+  
+  if (score<=90){
+   document.getElementById("resultLine").innerHTML = "You fail to defeat the Demon King."
+  }
+  else{
+   document.getElementById("resultLine").innerHTML = "You vanquish the Demon King, and <span id='chooseHome'><button onclick='new_world(0)'>discover a way to return home</button>/<button onclick='new_world(1)'>live a new life in a new world</button></span>"
+  }
+ }
+}
+
+</script>
+</body>
+</html>
